@@ -29,7 +29,7 @@ void *leitor(void *arg) {
    int local;
    sem_wait(&lock.lock);
    lock.leitores++;
-   //SE EU FOR O PRIMEIRO LEITOR, IREI TRAVAR A ESCRITA
+   //SE EU FOR O PRIMEIRO LEITOR, IREI TRAVAR O ESCRITOR
    if (lock.leitores == 1)
       //TRAVANDO ESCRITA
       sem_wait(&lock.escrita);
@@ -39,7 +39,7 @@ void *leitor(void *arg) {
 
    sem_wait(&lock.lock);
    lock.leitores--;
-   //SE EU FOR O ÚLTIMO LEITOR, IREI DESTRAVAR A ESCRITA
+   //SE EU FOR O ÚLTIMO LEITOR, IREI DESTRAVAR O ESCRITOR
    if (lock.leitores == 0)
       //DESTRAVANDO ESCRITA
       sem_post(&lock.escrita);
